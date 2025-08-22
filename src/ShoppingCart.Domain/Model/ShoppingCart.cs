@@ -1,9 +1,9 @@
-namespace ShoppingCart.Entities;
+namespace ShoppingCart.Domain.Model;
 
 /// <summary>
 /// Represents a customer's shopping cart.
 /// </summary>
-public class ShoppingCart
+public class Cart
 {
     /// <summary>
     /// Identifier for the cart.

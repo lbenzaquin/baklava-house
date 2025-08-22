@@ -1,4 +1,4 @@
-namespace ShoppingCart.Entities;
+namespace ShoppingCart.Domain.Model;
 
 /// <summary>
 /// Represents a product that can be added to a shopping cart.
