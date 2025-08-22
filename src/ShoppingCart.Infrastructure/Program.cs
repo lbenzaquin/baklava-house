@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ShoppingCart.Domain.Interfaces;
 using ShoppingCart.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddOpenApi();
 // add db context
 builder.Services.AddDbContext<ShoppingCartDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ShoppingCartDb")));
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 var app = builder.Build();
 
