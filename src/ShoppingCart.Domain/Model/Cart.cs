@@ -10,7 +10,7 @@ public enum CartStatus
     Converted
 }
 
-public class Cart
+public class Cart : IEntityBase
 {
     /// <summary>Identifier for the cart.</summary>
     public Guid Id { get; init; } = Guid.NewGuid();

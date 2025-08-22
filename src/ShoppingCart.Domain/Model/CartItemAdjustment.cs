@@ -1,7 +1,7 @@
 namespace ShoppingCart.Domain.Model;
 
 // Core cart-related entities
-public class CartItemAdjustment
+public class CartItemAdjustment : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public Guid CartItemId { get; set; }

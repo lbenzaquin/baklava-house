@@ -1,6 +1,6 @@
 namespace ShoppingCart.Domain.Model;
 
-public class Rate
+public class Rate : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public Guid ShippingMethodId { get; set; }

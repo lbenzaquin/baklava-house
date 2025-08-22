@@ -1,6 +1,6 @@
 namespace ShoppingCart.Domain.Model;
 
-public class Device
+public class Device : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public Guid SessionId { get; set; }

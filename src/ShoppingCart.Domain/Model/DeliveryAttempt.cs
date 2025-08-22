@@ -1,6 +1,6 @@
 namespace ShoppingCart.Domain.Model;
 
-public class DeliveryAttempt
+public class DeliveryAttempt : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public Guid ShipmentId { get; set; }

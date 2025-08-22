@@ -1,7 +1,7 @@
 namespace ShoppingCart.Domain.Model;
 
 // Orders
-public class Order
+public class Order : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public Guid CartId { get; set; }

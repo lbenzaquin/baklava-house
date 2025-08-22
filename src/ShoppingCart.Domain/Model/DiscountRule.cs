@@ -1,6 +1,6 @@
 namespace ShoppingCart.Domain.Model;
 
-public class DiscountRule
+public class DiscountRule : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public string Condition { get; set; } = string.Empty;

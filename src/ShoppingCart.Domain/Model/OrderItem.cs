@@ -1,6 +1,6 @@
 namespace ShoppingCart.Domain.Model;
 
-public class OrderItem
+public class OrderItem : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public Guid OrderId { get; set; }
