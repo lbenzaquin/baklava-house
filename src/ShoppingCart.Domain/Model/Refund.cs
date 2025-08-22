@@ -1,0 +1,11 @@
+using System;
+using System.Collections.Generic;
+
+namespace ShoppingCart.Domain.Model;
+
+public class Refund
+{
+    public Guid Id { get; init; } = Guid.NewGuid();
+    public Guid PaymentTransactionId { get; set; }
+    public decimal Amount { get; set; }
+}
