@@ -1,0 +1,6 @@
+namespace ShoppingCart.Entities;
+
+/// <summary>
+/// Represents a product that can be added to a shopping cart.
+/// </summary>
+public record Product(Guid Id, string Name, decimal Price);
