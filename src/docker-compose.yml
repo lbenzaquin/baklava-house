@@ -1,0 +1,14 @@
+services:
+  sql_server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver_db
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Baklava123!" 
+    ports:
+      - "1433:1433"
+  shoppingcart.infrastructure:
+    image: ${DOCKER_REGISTRY-}shoppingcartinfrastructure
+    build:
+      context: .
+      dockerfile: ShoppingCart.Infrastructure/Dockerfile

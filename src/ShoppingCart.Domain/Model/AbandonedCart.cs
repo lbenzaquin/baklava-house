@@ -1,0 +1,8 @@
+namespace ShoppingCart.Domain.Model;
+
+public class AbandonedCart : IEntityBase
+{
+    public Guid Id { get; init; } = Guid.NewGuid();
+    public Guid CartId { get; set; }
+    public DateTime AbandonedAt { get; set; }
+}
