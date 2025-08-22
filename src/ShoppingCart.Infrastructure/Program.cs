@@ -13,7 +13,7 @@ builder.Services.AddOpenApi();
 
 // add db context
 builder.Services.AddDbContext<ShoppingCartDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ShoppingCartDb")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 var app = builder.Build();
