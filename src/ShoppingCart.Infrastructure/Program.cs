@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ShoppingCart.Domain.Interfaces;
 using ShoppingCart.Infrastructure.Repositories;
 
@@ -16,6 +17,13 @@ builder.Services.AddDbContext<ShoppingCartDbContext>(options =>
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 var app = builder.Build();
+
+// apply pending migrations at startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ShoppingCartDbContext>();
+    dbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
