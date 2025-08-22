@@ -1,6 +1,6 @@
 namespace ShoppingCart.Domain.Model;
 
-public class InventoryReservation
+public class InventoryReservation : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public Guid InventoryItemId { get; set; }

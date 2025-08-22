@@ -1,6 +1,6 @@
 namespace ShoppingCart.Domain.Model;
 
-public class OutboxMessage
+public class OutboxMessage : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public string EventName { get; set; } = string.Empty;

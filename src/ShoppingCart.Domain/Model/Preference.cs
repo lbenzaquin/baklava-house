@@ -1,6 +1,6 @@
 namespace ShoppingCart.Domain.Model;
 
-public class Preference
+public class Preference : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public Guid CustomerId { get; set; }

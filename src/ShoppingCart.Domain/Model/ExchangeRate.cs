@@ -1,6 +1,6 @@
 namespace ShoppingCart.Domain.Model;
 
-public class ExchangeRate
+public class ExchangeRate : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public string FromCurrency { get; set; } = string.Empty;

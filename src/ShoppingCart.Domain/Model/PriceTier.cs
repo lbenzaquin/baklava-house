@@ -1,6 +1,6 @@
 namespace ShoppingCart.Domain.Model;
 
-public class PriceTier
+public class PriceTier : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public Guid PriceId { get; set; }

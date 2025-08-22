@@ -1,7 +1,7 @@
 namespace ShoppingCart.Domain.Model;
 
 // Platform, audit & events
-public class DomainEvent
+public class DomainEvent : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public string Name { get; set; } = string.Empty;

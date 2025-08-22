@@ -3,7 +3,7 @@ namespace ShoppingCart.Domain.Model;
 /// <summary>
 /// Represents a product entry in a shopping cart with pricing and quantity information.
 /// </summary>
-public class CartItem
+public class CartItem : IEntityBase
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public Guid CartId { get; set; }
