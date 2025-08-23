@@ -6,7 +6,7 @@ namespace ShoppingCart.Infrastructure.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CustomersController(ICustomerRepository repository) : ControllerBase
+public class CustomersController(IRepository<Customer> repository) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Customer>>> Get()
