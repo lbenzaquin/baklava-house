@@ -1399,14 +1399,16 @@ html, body {
 }
 
 .hero-text p.subtitle {
-  color: #F28123;
+  color: #fff7f1;
   font-weight: 700;
+  font-family: 'El Messiri', cursive;
   text-transform: uppercase;
   letter-spacing: 7px;
   font-size: 15px;
 }
 
 .hero-text h1 {
+  font-family: 'El Messiri', cursive;
   font-size: 64px;
   font-weight: 700;
   line-height: 1.3;
