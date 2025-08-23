@@ -1,9 +1,46 @@
 .landing
-  text-align: center
-  padding: 2rem
+  display: flex
+  flex-direction: column
+  align-items: center
 
-  h1
-    color: #8B4513
+  .hero
+    width: 100%
+    background: linear-gradient(135deg, #fdf3dc, #e0b56f)
+    color: #5a3e2b
+    text-align: center
+    padding: 4rem 1rem
 
-  p
-    margin-top: 1rem
+    h1
+      font-size: 3rem
+      margin-bottom: 1rem
+      color: #8B4513
+
+    p
+      font-size: 1.25rem
+      margin-bottom: 2rem
+
+    button
+      background-color: #8B4513
+      color: #fff
+      border: none
+      padding: .75rem 2rem
+      font-size: 1rem
+      border-radius: 4px
+      cursor: pointer
+
+      &:hover
+        background-color: #713a0f
+
+  .gallery
+    margin: 3rem 0
+    display: flex
+    gap: 2rem
+    flex-wrap: wrap
+    justify-content: center
+
+    img
+      width: 200px
+      height: 150px
+      object-fit: cover
+      border-radius: 8px
+      box-shadow: 0 4px 6px rgba(0,0,0,.1)
