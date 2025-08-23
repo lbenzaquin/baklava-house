@@ -9,6 +9,9 @@ services:
       - "1433:1433"
   shoppingcart.infrastructure:
     image: ${DOCKER_REGISTRY-}shoppingcartinfrastructure
+    ports:
+      - "5000:8080"
+      - "5001:8081"
     build:
       context: .
       dockerfile: ShoppingCart.Infrastructure/Dockerfile
