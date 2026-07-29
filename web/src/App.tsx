@@ -2,7 +2,7 @@ import { useState, useEffect, type FormEvent } from 'react'
 import {
   type Page, type Product, type CartItem,
   PRODUCTS, BOXES, FAQ_DATA,
-  fmt, buildWAMessage, WA_PHONE,
+  fmt, buildWAMessage, buildProductWA, WA_PHONE, CART_ENABLED,
 } from './data'
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -128,17 +128,19 @@ function Navbar({
         </nav>
 
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => setPage('cart')}
-            className="relative flex items-center gap-1.5 text-bark hover:text-pistachio transition-colors"
-          >
-            <IconCart />
-            {cartCount > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 bg-honey text-ivory text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full">
-                {cartCount}
-              </span>
-            )}
-          </button>
+          {CART_ENABLED && (
+            <button
+              onClick={() => setPage('cart')}
+              className="relative flex items-center gap-1.5 text-bark hover:text-pistachio transition-colors"
+            >
+              <IconCart />
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-honey text-ivory text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+          )}
           <button
             onClick={() => setOpen(!open)}
             className="md:hidden text-bark p-1"
@@ -168,7 +170,7 @@ function Navbar({
 // ─── WhatsApp FAB ──────────────────────────────────────────────────────────────
 
 function WAFab({ cart }: { cart: CartItem[] }) {
-  const href = cart.length > 0 ? buildWAMessage(cart) : `https://wa.me/${WA_PHONE}`
+  const href = CART_ENABLED && cart.length > 0 ? buildWAMessage(cart) : `https://wa.me/${WA_PHONE}`
   return (
     <a
       href={href}
@@ -178,7 +180,7 @@ function WAFab({ cart }: { cart: CartItem[] }) {
     >
       <IconWhatsApp size={19} />
       <span className="hidden sm:inline text-[13px] font-semibold">
-        {cart.length > 0 ? 'Pedí por WhatsApp' : 'Consultanos'}
+        {CART_ENABLED && cart.length > 0 ? 'Pedí por WhatsApp' : 'Consultanos'}
       </span>
     </a>
   )
@@ -213,17 +215,29 @@ function ProductCard({
           {product.tag && <Tag label={product.tag} variant={product.tag === 'Novedad' ? 'green' : 'honey'} />}
         </div>
         <p className="text-[13px] text-dust mb-3 line-clamp-2">{product.short}</p>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <div>
             <span className="font-semibold text-bark text-[16px]">{fmt(product.price)}</span>
             <span className="text-dust text-[12px] ml-1">{product.unit}</span>
           </div>
-          <button
-            className="text-[13px] font-semibold bg-pistachio text-ivory px-3.5 py-1.5 rounded-full hover:bg-pistachio-mid transition-colors"
-            onClick={(e) => { e.stopPropagation(); onAdd(product, product.presentations[0]) }}
-          >
-            Agregar
-          </button>
+          {CART_ENABLED ? (
+            <button
+              className="text-[13px] font-semibold bg-pistachio text-ivory px-3.5 py-1.5 rounded-full hover:bg-pistachio-mid transition-colors"
+              onClick={(e) => { e.stopPropagation(); onAdd(product, product.presentations[0]) }}
+            >
+              Agregar
+            </button>
+          ) : (
+            <a
+              href={buildProductWA(product)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[13px] font-semibold bg-wa text-white px-3.5 py-1.5 rounded-full hover:opacity-90 transition-opacity"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Pedir
+            </a>
+          )}
         </div>
       </div>
     </article>
@@ -277,13 +291,14 @@ function HomePage({
   setPage: (p: Page, product?: Product) => void
   addToCart: (p: Product, pres: string) => void
 }) {
+  const featured = PRODUCTS.find((p) => p.id === 'roll-chocolate') ?? PRODUCTS[0]
   const instagramImages = [
-    'https://images.unsplash.com/photo-1778448563279-e7b39093933c?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1778448806194-8dc4f71f5a4c?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1778447830669-8fe9626ed738?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1767796777227-32ef3200fab8?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1778447812923-88a9e3e6b567?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1772729294786-7a264601887b?w=400&h=400&fit=crop&auto=format',
+    '/images/products/baklava-cake.jpg',
+    '/images/products/caja-kilo.jpg',
+    '/images/products/canastitas-pistacho.jpg',
+    '/images/products/burma.jpg',
+    '/images/products/mamoul.jpg',
+    '/images/products/caja-medio.jpg',
   ]
 
   return (
@@ -291,8 +306,8 @@ function HomePage({
       {/* HERO */}
       <section className="relative min-h-[92vh] flex items-end pb-16 overflow-hidden bg-bark">
         <img
-          src="https://images.unsplash.com/photo-1778448563279-e7b39093933c?w=1440&h=900&fit=crop&auto=format"
-          alt="Baklawa de pistacho artesanal"
+          src="/images/products/caja-kilo.jpg"
+          alt="Baklava artesanal de Baklawa House"
           className="absolute inset-0 w-full h-full object-cover opacity-75"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-bark/80 via-bark/30 to-transparent" />
@@ -361,29 +376,40 @@ function HomePage({
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-almond">
               <img
-                src="https://images.unsplash.com/photo-1778447830669-8fe9626ed738?w=800&h=600&fit=crop&auto=format"
-                alt="Fingers de Kataifi"
+                src={featured.image}
+                alt={featured.name}
                 className="w-full h-full object-cover"
               />
             </div>
             <div>
-              <Tag label="Novedad" variant="green" />
+              {featured.tag && <Tag label={featured.tag} variant="green" />}
               <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-bark mt-3 mb-4 leading-tight">
-                Fingers de Kataifi
+                {featured.name}
               </h2>
               <p className="text-dust text-[15px] leading-relaxed mb-6">
-                Masa kataifi —filo convertida en hebras finísimas— enrollada con pistacho entero
-                y bañada en almíbar de miel. Crocantes, livianos y muy adictivos. El nuevo favorito de la casa.
+                {featured.description}
               </p>
               <div className="flex gap-3 flex-wrap">
+                {CART_ENABLED ? (
+                  <button
+                    onClick={() => { addToCart(featured, featured.presentations[0]); }}
+                    className="bg-pistachio text-ivory font-semibold px-6 py-3 rounded-full hover:bg-pistachio-mid transition-colors text-[14px]"
+                  >
+                    Agregar al carrito
+                  </button>
+                ) : (
+                  <a
+                    href={buildProductWA(featured)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-wa text-white font-semibold px-6 py-3 rounded-full hover:opacity-90 transition-opacity text-[14px]"
+                  >
+                    <IconWhatsApp size={16} />
+                    Pedir por WhatsApp
+                  </a>
+                )}
                 <button
-                  onClick={() => { addToCart(PRODUCTS[2], PRODUCTS[2].presentations[0]); }}
-                  className="bg-pistachio text-ivory font-semibold px-6 py-3 rounded-full hover:bg-pistachio-mid transition-colors text-[14px]"
-                >
-                  Agregar al carrito
-                </button>
-                <button
-                  onClick={() => setPage('product', PRODUCTS[2])}
+                  onClick={() => setPage('product', featured)}
                   className="text-pistachio font-semibold px-6 py-3 rounded-full border border-pistachio hover:bg-pistachio/5 transition-colors text-[14px]"
                 >
                   Ver más
@@ -401,7 +427,7 @@ function HomePage({
           title="Una caja para cada momento"
           sub="Armadas con cuidado, listas para regalar o llevar a la mesa."
         />
-        <div className="grid sm:grid-cols-3 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {BOXES.map((box) => (
             <article
               key={box.id}
@@ -424,12 +450,24 @@ function HomePage({
                     <span className="font-semibold text-bark">{fmt(box.price)}</span>
                     <span className="text-dust text-[12px] ml-1">{box.unit}</span>
                   </div>
-                  <button
-                    className="text-[13px] font-semibold border border-pistachio text-pistachio px-3.5 py-1.5 rounded-full hover:bg-pistachio hover:text-ivory transition-colors"
-                    onClick={(e) => { e.stopPropagation(); addToCart(box, box.presentations[0]) }}
-                  >
-                    Agregar
-                  </button>
+                  {CART_ENABLED ? (
+                    <button
+                      className="text-[13px] font-semibold border border-pistachio text-pistachio px-3.5 py-1.5 rounded-full hover:bg-pistachio hover:text-ivory transition-colors"
+                      onClick={(e) => { e.stopPropagation(); addToCart(box, box.presentations[0]) }}
+                    >
+                      Agregar
+                    </button>
+                  ) : (
+                    <a
+                      href={buildProductWA(box)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[13px] font-semibold bg-wa text-white px-3.5 py-1.5 rounded-full hover:opacity-90 transition-opacity"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Pedir
+                    </a>
+                  )}
                 </div>
               </div>
             </article>
@@ -476,8 +514,8 @@ function HomePage({
           </div>
           <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-pistachio-mid">
             <img
-              src="https://images.unsplash.com/photo-1571823915295-c450f2c3f27a?w=800&h=600&fit=crop&auto=format"
-              alt="Bandeja para eventos"
+              src="/images/products/caja-kilo.jpg"
+              alt="Caja surtida para eventos"
               className="w-full h-full object-cover opacity-90"
             />
           </div>
@@ -505,21 +543,12 @@ function HomePage({
               Conocé nuestra historia →
             </button>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-almond">
-              <img
-                src="https://images.unsplash.com/photo-1778448806128-18e8354356e1?w=400&h=533&fit=crop&auto=format"
-                alt="Baklawa artesanal"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-almond mt-6">
-              <img
-                src="https://images.unsplash.com/photo-1663214956771-9c6d8f646a2d?w=400&h=533&fit=crop&auto=format"
-                alt="Detalle de dulces árabes"
-                className="w-full h-full object-cover"
-              />
-            </div>
+          <div className="aspect-[3/2] rounded-2xl overflow-hidden bg-almond">
+            <img
+              src="/images/camila-baklava-shop.jpg"
+              alt="Camila, fundadora de Baklawa House"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </section>
@@ -530,7 +559,7 @@ function HomePage({
           <div className="grid sm:grid-cols-3 gap-6">
             {[
               { icon: <IconTruck size={24} />, title: 'Envíos en Córdoba', text: 'Hacemos envíos a domicilio dentro de Córdoba Capital. El costo se coordina por WhatsApp.' },
-              { icon: <IconCheck size={24} />, title: 'Retiro en local', text: 'También podés retirar personalmente. Dirección a confirmar al hacer el pedido.' },
+              { icon: <IconInstagram size={24} />, title: 'Seguinos en Instagram', text: 'Novedades, pedidos especiales y lo que vamos horneando, en @baklawa_house.' },
               { icon: <IconWhatsApp size={24} />, title: 'Pedido por WhatsApp', text: 'Todos los pedidos se coordinan por WhatsApp. Respondemos rápido.' },
             ].map((item) => (
               <div key={item.title} className="flex gap-4 items-start">
@@ -657,7 +686,7 @@ function CatalogPage({
         {[
           { id: 'all', label: 'Todo' },
           { id: 'individual', label: 'Piezas individuales' },
-          { id: 'box', label: 'Boxes y bandejas' },
+          { id: 'box', label: 'Cakes y cajas' },
         ].map((f) => (
           <button
             key={f.id}
@@ -783,24 +812,26 @@ function ProductPage({
           </div>
 
           <div className="flex gap-3 flex-wrap">
-            <button
-              onClick={handleAdd}
-              className={`flex items-center gap-2 font-semibold px-7 py-3.5 rounded-full transition-all text-[14px] ${
-                added
-                  ? 'bg-pistachio-light text-pistachio border border-pistachio'
-                  : 'bg-pistachio text-ivory hover:bg-pistachio-mid'
-              }`}
-            >
-              {added ? <><IconCheck size={16} /> Agregado</> : 'Agregar al carrito'}
-            </button>
+            {CART_ENABLED && (
+              <button
+                onClick={handleAdd}
+                className={`flex items-center gap-2 font-semibold px-7 py-3.5 rounded-full transition-all text-[14px] ${
+                  added
+                    ? 'bg-pistachio-light text-pistachio border border-pistachio'
+                    : 'bg-pistachio text-ivory hover:bg-pistachio-mid'
+                }`}
+              >
+                {added ? <><IconCheck size={16} /> Agregado</> : 'Agregar al carrito'}
+              </button>
+            )}
             <a
-              href={`https://wa.me/${WA_PHONE}?text=${encodeURIComponent(`¡Hola! Quiero pedir ${qty} × ${product.name} (${selected}) 🌿`)}`}
+              href={buildProductWA(product, selected, qty)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-wa text-white font-semibold px-7 py-3.5 rounded-full hover:opacity-90 transition-opacity text-[14px]"
             >
               <IconWhatsApp size={16} />
-              Pedir directo
+              Pedir por WhatsApp
             </a>
           </div>
         </div>
@@ -826,8 +857,8 @@ function BoxesPage({
         </button>
         <SectionHeading
           tag="Para compartir"
-          title="Boxes y bandejas"
-          sub="Armadas con cuidado para regalar o para la mesa. Personalizables con dedicatoria."
+          title="Cakes y cajas"
+          sub="Armadas con cuidado, listas para regalar o llevar a la mesa."
         />
       </div>
 
@@ -852,12 +883,24 @@ function BoxesPage({
                 </ul>
               )}
               <div className="flex gap-3 flex-wrap">
-                <button
-                  onClick={() => addToCart(box, box.presentations[0])}
-                  className="bg-pistachio text-ivory font-semibold px-6 py-3 rounded-full hover:bg-pistachio-mid transition-colors text-[14px]"
-                >
-                  Agregar al carrito
-                </button>
+                {CART_ENABLED ? (
+                  <button
+                    onClick={() => addToCart(box, box.presentations[0])}
+                    className="bg-pistachio text-ivory font-semibold px-6 py-3 rounded-full hover:bg-pistachio-mid transition-colors text-[14px]"
+                  >
+                    Agregar al carrito
+                  </button>
+                ) : (
+                  <a
+                    href={buildProductWA(box)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-wa text-white font-semibold px-6 py-3 rounded-full hover:opacity-90 transition-opacity text-[14px]"
+                  >
+                    <IconWhatsApp size={16} />
+                    Pedir por WhatsApp
+                  </a>
+                )}
                 <button
                   onClick={() => setPage('product', box)}
                   className="border border-pistachio text-pistachio font-semibold px-6 py-3 rounded-full hover:bg-pistachio hover:text-ivory transition-colors text-[14px]"
@@ -1016,7 +1059,7 @@ function CheckoutPage({
   clearCart: () => void
 }) {
   const [form, setForm] = useState({
-    name: '', phone: '', email: '', delivery: 'envio', address: '', date: '', notes: '',
+    name: '', phone: '', email: '', address: '', date: '', notes: '',
   })
   const total = cart.reduce((s, i) => s + i.product.price * i.quantity, 0)
 
@@ -1031,7 +1074,7 @@ function CheckoutPage({
   }
 
   const handleWA = () => {
-    const href = buildWAMessage(cart, form.delivery === 'envio' ? `Envío a ${form.address || 'coordinar'}` : 'Retiro en local', form.date, form.notes)
+    const href = buildWAMessage(cart, `Envío a ${form.address || 'coordinar'}`, form.date, form.notes)
     window.open(href, '_blank')
   }
 
@@ -1062,27 +1105,11 @@ function CheckoutPage({
               className="w-full border border-almond rounded-xl px-4 py-3 text-[14px] bg-white focus:outline-none focus:border-pistachio transition-colors" placeholder="tu@email.com" />
           </label>
 
-          <div>
-            <span className="text-[12px] font-semibold uppercase tracking-wider text-dust block mb-2">Modalidad de entrega *</span>
-            <div className="flex gap-3">
-              {[{ id: 'envio', label: 'Envío a domicilio' }, { id: 'retiro', label: 'Retiro en local' }].map((opt) => (
-                <button key={opt.id} type="button"
-                  onClick={() => set('delivery', opt.id)}
-                  className={`flex-1 py-3 rounded-xl text-[14px] font-medium border transition-colors ${form.delivery === opt.id ? 'bg-pistachio text-ivory border-pistachio' : 'border-almond text-dust hover:border-pistachio bg-white'}`}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {form.delivery === 'envio' && (
-            <label className="block">
-              <span className="text-[12px] font-semibold uppercase tracking-wider text-dust block mb-1.5">Dirección *</span>
-              <input required value={form.address} onChange={(e) => set('address', e.target.value)}
-                className="w-full border border-almond rounded-xl px-4 py-3 text-[14px] bg-white focus:outline-none focus:border-pistachio transition-colors" placeholder="Calle, número, barrio" />
-            </label>
-          )}
+          <label className="block">
+            <span className="text-[12px] font-semibold uppercase tracking-wider text-dust block mb-1.5">Dirección de envío *</span>
+            <input required value={form.address} onChange={(e) => set('address', e.target.value)}
+              className="w-full border border-almond rounded-xl px-4 py-3 text-[14px] bg-white focus:outline-none focus:border-pistachio transition-colors" placeholder="Calle, número, barrio" />
+          </label>
 
           <label className="block">
             <span className="text-[12px] font-semibold uppercase tracking-wider text-dust block mb-1.5">Fecha deseada de entrega</span>
@@ -1223,8 +1250,8 @@ function EventsPage({ setPage }: { setPage: (p: Page) => void }) {
             </div>
             <div className="mt-8 bg-almond rounded-2xl overflow-hidden aspect-[16/9]">
               <img
-                src="https://images.unsplash.com/photo-1571823915295-c450f2c3f27a?w=800&h=450&fit=crop&auto=format"
-                alt="Bandeja para eventos"
+                src="/images/products/caja-medio.jpg"
+                alt="Caja surtida para eventos"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -1300,14 +1327,14 @@ function StoryPage({ setPage }: { setPage: (p: Page) => void }) {
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-almond">
             <img
-              src="https://images.unsplash.com/photo-1778448806128-18e8354356e1?w=700&h=525&fit=crop&auto=format"
-              alt="Baklawa artesanal"
+              src="/images/camila-baklava-shop.jpg"
+              alt="Camila de Baklawa House"
               className="w-full h-full object-cover"
             />
           </div>
           <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-almond">
             <img
-              src="https://images.unsplash.com/photo-1784386124506-617d0bec2e02?w=700&h=525&fit=crop&auto=format"
+              src="/images/products/baklava-cake.jpg"
               alt="Dulces árabes"
               className="w-full h-full object-cover"
             />
@@ -1318,7 +1345,7 @@ function StoryPage({ setPage }: { setPage: (p: Page) => void }) {
           {[
             'Baklawa House nació de un amor de familia por los dulces árabes. Las recetas llegaron desde Medio Oriente y fueron pasando de generación en generación, adaptadas con ingredientes de acá.',
             'Cada pieza se prepara a mano el mismo día del pedido. Usamos masa filo de calidad, frutos secos seleccionados —pistacho iraní, nuez, almendra— y un almíbar que balanceamos para que complemente sin tapar el sabor del relleno.',
-            'Estamos en Córdoba y vendemos por WhatsApp. Hacemos envíos dentro de la ciudad y también coordinamos retiro en el local.',
+            'Estamos en Córdoba y vendemos por WhatsApp. Hacemos envíos dentro de la ciudad.',
             'Si querés conocernos mejor o tenés alguna duda sobre cómo trabajamos, escribinos. Respondemos siempre.',
           ].map((p, i) => (
             <p key={i} className="text-dust text-[15px] leading-relaxed">{p}</p>
@@ -1447,6 +1474,10 @@ export default function App() {
   const cartCount = cart.reduce((s, i) => s + i.quantity, 0)
 
   const navigate = (p: Page, product?: Product) => {
+    if (!CART_ENABLED && (p === 'cart' || p === 'checkout' || p === 'confirmation')) {
+      setPage('catalog')
+      return
+    }
     if (product) setSelected(product)
     setPage(p)
   }
@@ -1475,8 +1506,8 @@ export default function App() {
       {page === 'catalog' && <CatalogPage setPage={navigate} addToCart={addToCart} />}
       {page === 'product' && selected && <ProductPage product={selected} setPage={navigate} addToCart={addToCart} />}
       {page === 'boxes' && <BoxesPage setPage={navigate} addToCart={addToCart} />}
-      {page === 'cart' && <CartPage cart={cart} updateQty={updateQty} setPage={setPage} />}
-      {page === 'checkout' && (
+      {CART_ENABLED && page === 'cart' && <CartPage cart={cart} updateQty={updateQty} setPage={setPage} />}
+      {CART_ENABLED && page === 'checkout' && (
         <CheckoutPage
           cart={cart}
           setPage={setPage}
@@ -1484,7 +1515,7 @@ export default function App() {
           clearCart={() => setCart([])}
         />
       )}
-      {page === 'confirmation' && <ConfirmationPage orderNum={orderNum} setPage={setPage} />}
+      {CART_ENABLED && page === 'confirmation' && <ConfirmationPage orderNum={orderNum} setPage={setPage} />}
       {page === 'events' && <EventsPage setPage={setPage} />}
       {page === 'story' && <StoryPage setPage={setPage} />}
 

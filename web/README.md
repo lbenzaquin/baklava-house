@@ -63,10 +63,9 @@ La config de build en Azure debe quedar: *App location* `web`, *Api location* va
 ## Pendientes antes de publicar
 
 - **Número de WhatsApp**: en [`src/data.ts`](src/data.ts) la constante
-  `WA_PHONE` es un placeholder (`5493510000000`). Reemplazalo por el número real
-  (formato internacional sin `+`, ej. `54935100000000`).
-- **Imágenes**: actualmente son placeholders de Unsplash cargados por URL.
-  Reemplazalas por fotos reales del negocio (podés subirlas a `public/` y apuntar
-  las rutas en `data.ts` / `App.tsx`).
+  `WA_PHONE` (`5492964474478` → +54 9 2964 474478). Cambiálo si actualizás el número
+  (formato internacional sin `+`, con el `9` de celular argentino).
+- **Carrito**: oculto por ahora (`CART_ENABLED = false` en `data.ts`). Los pedidos
+  van por WhatsApp. Poné `true` para reactivar ícono, agregar al carrito y checkout.
 - **Instagram**: los links apuntan a `instagram.com/baklawa_house`; ajustá si el
   usuario real es otro.

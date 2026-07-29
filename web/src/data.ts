@@ -24,140 +24,172 @@ export interface CartItem {
   presentation: string
 }
 
+/** Set to true to re-enable cart / checkout UI. */
+export const CART_ENABLED = false
+
 export const PRODUCTS: Product[] = [
   {
-    id: 'baklawa-pistacho',
-    name: 'Baklawa de Pistacho',
+    id: 'turron-armenio',
+    name: 'Turrón armenio',
     category: 'individual',
-    short: 'El clásico de siempre, con pistacho molido y almíbar de miel.',
+    short: 'Clásico de frutos secos. Doce porciones para compartir.',
     description:
-      'Masa filo crocante, hecha a mano capa a capa, rellena con pistacho molido y bañada en almíbar de miel de abejas. La más pedida de la colección.',
-    price: 1800,
-    unit: 'por 4 piezas',
-    image:
-      'https://images.unsplash.com/photo-1778448563279-e7b39093933c?w=700&h=700&fit=crop&auto=format',
+      'Turrón armenio artesanal, denso y aromático, con frutos secos seleccionados. Ideal para la mesa o para regalar. Doce porciones.',
+    price: 30000,
+    unit: '12 porciones',
+    image: '/images/products/turron-armenio.jpg',
+    ingredients: ['Frutos secos', 'Azúcar', 'Especias'],
+    presentations: ['12 porciones'],
+  },
+  {
+    id: 'mamoul',
+    name: 'Mamoul de nuez o dátiles',
+    category: 'individual',
+    short: 'Galletitas de sémola rellenas. Elegí nuez o dátiles.',
+    description:
+      'Mamoul tradicionales de sémola, suaves y especiados, rellenos de nuez o pasta de dátil. Sin almíbar. Perfectos con té o café.',
+    price: 30000,
+    unit: '6 unidades',
+    image: '/images/products/mamoul.jpg',
+    ingredients: ['Sémola', 'Manteca', 'Nuez o pasta de dátil', 'Especias'],
+    presentations: ['Nuez', 'Dátiles'],
+  },
+  {
+    id: 'canastitas-pistacho',
+    name: 'Canastitas de pistacho',
+    category: 'individual',
+    short: 'Nidos de masa con pistacho. Crocantes y almibarados.',
+    description:
+      'Canastitas de masa kataifi rellenas de pistacho, bañadas en almíbar. Crocantes, doradas y con el sabor clásico de la casa.',
+    price: 30000,
+    unit: '1/4 kg',
+    image: '/images/products/canastitas-pistacho.jpg',
     tag: 'Más pedida',
-    ingredients: ['Masa filo artesanal', 'Pistacho molido', 'Almíbar de miel', 'Manteca clarificada'],
-    presentations: ['4 piezas', '8 piezas', '12 piezas'],
+    ingredients: ['Masa kataifi', 'Pistacho', 'Almíbar'],
+    presentations: ['1/4 kg'],
   },
   {
-    id: 'baklawa-nuez',
-    name: 'Baklawa de Nuez',
+    id: 'mydie',
+    name: 'Mydie',
     category: 'individual',
-    short: 'Tradicional con nuez picada, canela y almíbar de agua de rosas.',
+    short: 'Piezas de masa filo con frutos secos y almíbar.',
     description:
-      'La receta de la familia. Nuez picada fina con canela, envuelta en capas de masa filo y bañada con almíbar perfumado con agua de rosas.',
-    price: 1700,
-    unit: 'por 4 piezas',
-    image:
-      'https://images.unsplash.com/photo-1778448806128-18e8354356e1?w=700&h=700&fit=crop&auto=format',
-    ingredients: ['Masa filo artesanal', 'Nuez picada', 'Canela', 'Almíbar con agua de rosas'],
-    presentations: ['4 piezas', '8 piezas', '12 piezas'],
+      'Mydie artesanal: masa filo crocante con relleno de frutos secos y el punto justo de almíbar. Presentación por cuarto kilo.',
+    price: 30000,
+    unit: '1/4 kg',
+    image: '/images/products/mydie.jpg',
+    ingredients: ['Masa filo', 'Frutos secos', 'Almíbar'],
+    presentations: ['1/4 kg'],
   },
   {
-    id: 'fingers-kataifi',
-    name: 'Fingers de Kataifi',
+    id: 'cannolis',
+    name: 'Cannolis',
     category: 'individual',
-    short: 'Masa kataifi (filo rallado) con pistacho. Crocantes y livianos.',
+    short: 'Rollitos de masa filo rellenos, por cuarto kilo.',
     description:
-      'Masa kataifi —filo convertida en hebras finísimas— enrollada con pistacho entero y bañada en almíbar. Crocantes, livianos y muy adictivos.',
-    price: 1900,
-    unit: 'por 4 piezas',
-    image:
-      'https://images.unsplash.com/photo-1778447830669-8fe9626ed738?w=700&h=700&fit=crop&auto=format',
+      'Cannolis de masa filo dorada, rellenos y almibarados. Una presentación compacta para disfrutar o compartir.',
+    price: 30000,
+    unit: '1/4 kg',
+    image: '/images/products/cannolis.jpg',
+    ingredients: ['Masa filo', 'Relleno de frutos secos', 'Almíbar'],
+    presentations: ['1/4 kg'],
+  },
+  {
+    id: 'burma',
+    name: 'Burma',
+    category: 'individual',
+    short: 'Rollos de masa filo con nuez. Tradicionales y crocantes.',
+    description:
+      'Burma enrollada a mano, con nuez visible y masa filo crocante bañada en almíbar. Un clásico de la pastelería árabe.',
+    price: 30000,
+    unit: '1/4 kg',
+    image: '/images/products/burma.jpg',
+    ingredients: ['Masa filo', 'Nuez', 'Almíbar'],
+    presentations: ['1/4 kg'],
+  },
+  {
+    id: 'roll-chocolate',
+    name: 'Roll de chocolate',
+    category: 'individual',
+    short: 'Rollos de masa con chocolate y pistacho.',
+    description:
+      'Roll de chocolate artesanal: masa filo con relleno de chocolate y toque de pistacho, bañado en almíbar. Por cuarto kilo.',
+    price: 40000,
+    unit: '1/4 kg',
+    image: '/images/products/roll-chocolate.jpg',
     tag: 'Novedad',
-    ingredients: ['Masa kataifi', 'Pistacho entero', 'Almíbar de miel', 'Manteca clarificada'],
-    presentations: ['4 piezas', '8 piezas', '12 piezas'],
-  },
-  {
-    id: 'rolls-filo',
-    name: 'Rolls de Filo',
-    category: 'individual',
-    short: 'Cilindros de masa filo con frutos secos y almíbar.',
-    description:
-      'Rollos de masa filo rellenos con una mezcla de frutos secos (pistacho, nuez, almendra) y especias. Crocantes, dorados y bien almibados.',
-    price: 1700,
-    unit: 'por 4 piezas',
-    image:
-      'https://images.unsplash.com/photo-1778447812923-88a9e3e6b567?w=700&h=700&fit=crop&auto=format',
-    ingredients: ['Masa filo', 'Mix de frutos secos', 'Especias árabes', 'Almíbar de naranja'],
-    presentations: ['4 piezas', '8 piezas', '12 piezas'],
-  },
-  {
-    id: 'mamoul-datil',
-    name: 'Mamoul de Dátil',
-    category: 'individual',
-    short: 'Galletitas de sémola rellenas con pasta de dátil. Sin almíbar.',
-    description:
-      'Galletitas tradicionales de sémola con un corazón de pasta de dátil. Suaves, especiadas y sin almíbar. Perfectas para tomar con té.',
-    price: 1500,
-    unit: 'por 6 piezas',
-    image:
-      'https://images.unsplash.com/photo-1664123122003-15558de0bbc5?w=700&h=700&fit=crop&auto=format',
-    ingredients: ['Sémola', 'Manteca', 'Pasta de dátil', 'Especias'],
-    presentations: ['6 piezas', '12 piezas'],
-  },
-  {
-    id: 'mix-arabe',
-    name: 'Mix Árabe',
-    category: 'individual',
-    short: 'Los cuatro clásicos de Baklawa House en una sola caja.',
-    description:
-      'Selección de nuestros cuatro favoritos: baklawa de pistacho, baklawa de nuez, fingers de kataifi y rolls de filo. Ideal para descubrir la colección.',
-    price: 2400,
-    unit: 'por 8 piezas',
-    image:
-      'https://images.unsplash.com/photo-1772729294786-7a264601887b?w=700&h=700&fit=crop&auto=format',
-    tag: 'Recomendado',
-    ingredients: ['2 Baklawa de Pistacho', '2 Baklawa de Nuez', '2 Fingers de Kataifi', '2 Rolls de Filo'],
-    presentations: ['8 piezas (2 de cada)', '16 piezas (4 de cada)'],
+    ingredients: ['Masa filo', 'Chocolate', 'Pistacho', 'Almíbar'],
+    presentations: ['1/4 kg'],
   },
 ]
 
 export const BOXES: Product[] = [
   {
-    id: 'box-12',
-    name: 'Box 12 piezas',
+    id: 'baklava-cake',
+    name: 'Baklava cake',
     category: 'box',
-    short: 'Una caja para compartir. Mix a elección, con lazo.',
+    short: 'Pastel redondo de baklava. Doce porciones, ~1 kg.',
     description:
-      'Nuestra caja de regalo para momentos especiales. 12 piezas a elección del comprador, presentadas en caja con lazo. Podés incluir una dedicatoria personal.',
-    price: 5400,
-    unit: 'para 2-3 personas',
-    image:
-      'https://images.unsplash.com/photo-1784386124506-617d0bec2e02?w=700&h=700&fit=crop&auto=format',
+      'Baklava cake artesanal en formato pastel: masa filo capa a capa, frutos secos y almíbar. Doce porciones, aproximadamente 1 kilo. Ideal para celebraciones.',
+    price: 47000,
+    unit: '~1 kg · 12 porciones',
+    image: '/images/products/baklava-cake.jpg',
+    tag: 'Para compartir',
+    ingredients: ['Masa filo artesanal', 'Frutos secos', 'Almíbar', 'Decoración con pistacho o pétalos'],
+    presentations: ['12 porciones (~1 kg)'],
+  },
+  {
+    id: 'mini-baklava-cake',
+    name: 'Mini baklava cake',
+    category: 'box',
+    short: 'Versión mini del cake. Ocho porciones, ~500 g.',
+    description:
+      'Mini baklava cake para mesas más chicas o regalos especiales. Ocho mini porciones, aproximadamente 500 gramos, con la misma receta de la casa.',
+    price: 30000,
+    unit: '~500 g · 8 mini porciones',
+    image: '/images/products/mini-baklava-cake.jpg',
+    ingredients: ['Masa filo artesanal', 'Frutos secos', 'Almíbar'],
+    presentations: ['8 mini porciones (~500 g)'],
+  },
+  {
+    id: 'caja-kilo',
+    name: 'Caja de kilo surtida',
+    category: 'box',
+    short: 'Un kilo de baklava surtida. La más generosa.',
+    description:
+      'Caja de un kilo con surtido de baklava de la casa. Variedad de formas y rellenos, lista para compartir o regalar.',
+    price: 40000,
+    unit: '1 kg',
+    image: '/images/products/caja-kilo.jpg',
     tag: 'Para regalar',
-    ingredients: ['12 piezas a elección', 'Presentación en caja con lazo', 'Tarjeta de dedicatoria incluida'],
-    presentations: ['Mix a elección', 'Solo pistacho', 'Solo nuez', 'Selección de la casa'],
+    ingredients: ['Surtido de baklava', 'Presentación en caja'],
+    presentations: ['1 kg surtida'],
   },
   {
-    id: 'box-24',
-    name: 'Box 24 piezas',
+    id: 'caja-medio',
+    name: 'Caja de medio kilo surtida',
     category: 'box',
-    short: 'La caja grande. Para reuniones o para el que no puede elegir.',
+    short: 'Medio kilo surtido. Ideal para probar o regalar.',
     description:
-      'La caja grande. 24 piezas con la colección completa de Baklawa House, en caja con lazo. Perfecta para llevar a una reunión o para tener en casa toda la semana.',
-    price: 9800,
-    unit: 'para 4-6 personas',
-    image:
-      'https://images.unsplash.com/photo-1767796777227-32ef3200fab8?w=700&h=700&fit=crop&auto=format',
-    ingredients: ['6 Baklawa de Pistacho', '6 Baklawa de Nuez', '6 Fingers de Kataifi', '6 Rolls de Filo'],
-    presentations: ['Colección completa', 'Armado a elección'],
+      'Caja de medio kilo con selección surtida de dulces árabes. Equilibrio perfecto entre variedad y tamaño.',
+    price: 30000,
+    unit: '1/2 kg',
+    image: '/images/products/caja-medio.jpg',
+    ingredients: ['Surtido de baklava', 'Presentación en caja'],
+    presentations: ['1/2 kg surtida'],
   },
   {
-    id: 'bandeja-familiar',
-    name: 'Bandeja Familiar',
-    category: 'bandeja',
-    short: 'Bandeja generosa para agasajar en reuniones y celebraciones.',
+    id: 'caja-cuarto',
+    name: 'Caja de cuarto kilo',
+    category: 'box',
+    short: 'Cuarto kilo surtido. Para probar o un gusto personal.',
     description:
-      'La bandeja para agasajar a todos. Mix completo de la colección, presentado en bandeja grande lista para servir. Ideal para cumpleaños, fiestas y reuniones familiares.',
-    price: 18000,
-    unit: 'para 15-20 personas',
-    image:
-      'https://images.unsplash.com/photo-1571823915295-c450f2c3f27a?w=700&h=700&fit=crop&auto=format',
-    tag: 'Eventos',
-    ingredients: ['Mix completo a elección', 'Bandeja descartable presentable', 'Etiqueta Baklawa House'],
-    presentations: ['Bandeja chica ~30 piezas', 'Bandeja grande ~50 piezas'],
+      'Caja de cuarto kilo con surtido de la casa. Ideal para conocer los dulces o para un regalo más chico.',
+    price: 20000,
+    unit: '1/4 kg',
+    image: '/images/products/caja-cuarto.jpg',
+    ingredients: ['Surtido de baklava', 'Presentación en caja'],
+    presentations: ['1/4 kg'],
   },
 ]
 
@@ -170,11 +202,11 @@ export const FAQ_DATA = [
   },
   {
     q: '¿Hacen envíos?',
-    a: 'Sí, hacemos envíos dentro de Córdoba Capital. El costo varía según la zona. También podés retirar por el local (dirección a confirmar por WhatsApp).',
+    a: 'Sí, hacemos envíos dentro de Córdoba Capital. El costo varía según la zona y se coordina por WhatsApp.',
   },
   {
     q: '¿Los productos tienen almíbar?',
-    a: 'Todos los dulces de masa filo (baklawa, fingers y rolls) llevan almíbar. El mamoul no lleva almíbar. Si tenés alguna restricción, consultanos.',
+    a: 'Los dulces de masa filo (baklava, canastitas, burma, rolls y similares) llevan almíbar. El mamoul no lleva almíbar. Si tenés alguna restricción, consultanos.',
   },
   {
     q: '¿Tienen opciones sin gluten o veganas?',
@@ -194,10 +226,16 @@ export const FAQ_DATA = [
   },
 ]
 
-export const WA_PHONE = '5493510000000'
+export const WA_PHONE = '5492964474478'
 
 export function fmt(n: number) {
   return `$${n.toLocaleString('es-AR')}`
+}
+
+export function buildProductWA(product: Product, presentation?: string, qty = 1) {
+  const pres = presentation ?? product.presentations[0]
+  const msg = `¡Hola! Quiero pedir ${qty} × ${product.name} (${pres}) 🌿`
+  return `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(msg)}`
 }
 
 export function buildWAMessage(cart: CartItem[], delivery = '', date = '', notes = '') {
