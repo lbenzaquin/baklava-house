@@ -1452,7 +1452,17 @@ function Footer({ setPage }: { setPage: (p: Page) => void }) {
         </div>
         <div className="border-t border-ivory/10 pt-6 flex flex-col sm:flex-row justify-between gap-3 text-[12px] text-ivory/40">
           <p>© {new Date().getFullYear()} Baklawa House — Córdoba, Argentina</p>
-          <p>Preparados artesanalmente con amor 🌿</p>
+          <p>
+            Powered by{' '}
+            <a
+              href="https://www.koozco.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ivory/55 hover:text-ivory transition-colors underline underline-offset-2"
+            >
+              Koozco Labs
+            </a>
+          </p>
         </div>
       </div>
     </footer>
